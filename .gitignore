@@ -1,0 +1,24 @@
+# Arquivos compilados e binários
+*.o
+*.a
+*.so
+*.lo
+*.la
+*.lai
+*.exe
+*.out
+*.obj
+
+# Arquivos de depuração e de perfil
+*.ilk
+*.pdb
+*.idb
+*.gcno
+*.gcda
+
+# Pastas de build
+/bin/
+/build/
+/Debug/
+/Release/
+/out

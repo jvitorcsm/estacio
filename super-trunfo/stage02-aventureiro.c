@@ -8,6 +8,7 @@
 int welcome(void);
 struct Card makeCard(void);
 void displayCard(struct Card c);
+void compareGDPPerCapita(struct Card card1, struct Card card2);
 
   // We need to add a Mold Card to this object;
 struct Card {
@@ -18,6 +19,8 @@ struct Card {
   float areaKm2; 
   float gdp; // Portuguese PIB -> English GDP Gross-Domestic-Product
   int touristAttractionsCount;
+  float populationDensity;
+  float gdpPerCapita;
 };
 
 // When we declare it this way, we have two structs with the same structure (fields), but each variable has its own value
@@ -26,21 +29,22 @@ int main() {
   int play = welcome();
 
   if (play == 1) {
+    //Loading
     printf("Starting the game...\n");
-    
-    // Continue creating the cards
-    
+
+    // Continue creating the cards 
     printf("\n--- Registering Card 01 ---\n");   
-    struct Card card01 = makeCard(); 
-    
+    struct Card card01 = makeCard();  
     printf("\n--- Registering Card 02 ---\n");
     struct Card card02 = makeCard();
 
+    //Show cards
     printf("\n--- Card 01 ---\n");   
     displayCard(card01);
     printf("\n--- Card 02 ---\n");   
     displayCard(card02);
-
+    
+    compareGDPPerCapita(card01, card02);
   } else {
     printf("Exiting... See you next time! :P\n");
     
@@ -77,7 +81,7 @@ int welcome(void) {
 
 };
 
-// Function makeCard, I dont want repeat printf and scanf for card01 and 02, so I do this function
+// Function makeCard, I dont want repeat printf and scanf for card02 and 02, so I do this function
 // I will make function makeCard that, when finish, send a package complete in the format mold struct Card
 struct Card makeCard(void) {
   
@@ -101,6 +105,12 @@ struct Card makeCard(void) {
   printf("Enter How Many Tourist Attractions Exist in this City: ");
     scanf(" %i", &newCard.touristAttractionsCount);
 
+  newCard.populationDensity =
+    (newCard.population/newCard.areaKm2);
+
+  newCard.gdpPerCapita =
+    (newCard.gdp/newCard.population);
+    
   return newCard;
 };
 
@@ -112,4 +122,37 @@ void displayCard(struct Card c) {
   printf("Area in Square Kilometers: %f\n", c.areaKm2);
   printf("Gross-Domestic-Product (GDP) %f\n", c.gdp);
   printf("Tourist Attractions %d\n", c.touristAttractionsCount);
+  printf("Density Population: %f\n", c.populationDensity);
+  printf("PIB Per Capita: %f\n", c.gdpPerCapita);
 };
+
+void compareGDPPerCapita(
+    struct Card card1,
+    struct Card card2
+)
+{
+    printf("\nComparison (GDP Per Capita)\n");
+
+    printf("%s: %.2f\n",
+           card1.cityName,
+           card1.gdpPerCapita);
+
+    printf("%s: %.2f\n",
+           card2.cityName,
+           card2.gdpPerCapita);
+
+    if(card1.gdpPerCapita > card2.gdpPerCapita)
+    {
+        printf("Winner: %s\n",
+               card1.cityName);
+    }
+    else if(card2.gdpPerCapita > card1.gdpPerCapita)
+    {
+        printf("Winner: %s\n",
+               card2.cityName);
+    }
+    else
+    {
+        printf("Tie!\n");
+    }
+}
